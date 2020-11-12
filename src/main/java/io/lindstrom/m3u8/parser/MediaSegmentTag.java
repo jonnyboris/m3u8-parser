@@ -10,19 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 enum MediaSegmentTag implements Tag<MediaSegment, MediaSegment.Builder> {
-    EXT_X_DISCONTINUITY {
-        @Override
-        public void read(MediaSegment.Builder builder, String attributes) {
-            builder.discontinuity(true);
-        }
 
-        @Override
-        public void write(MediaSegment value, TextBuilder textBuilder) {
-            if (value.discontinuity()) {
-                textBuilder.addTag(tag());
-            }
-        }
-    },
 
     EXT_X_PROGRAM_DATE_TIME {
         @Override
@@ -112,6 +100,21 @@ enum MediaSegmentTag implements Tag<MediaSegment, MediaSegment.Builder> {
             mediaSegment.segmentMap().ifPresent(value -> textBuilder.addTag(tag(), value, SegmentMapAttribute.attributeMap));
         }
     },
+
+    EXT_X_DISCONTINUITY {
+        @Override
+        public void read(MediaSegment.Builder builder, String attributes) {
+            builder.discontinuity(true);
+        }
+
+        @Override
+        public void write(MediaSegment value, TextBuilder textBuilder) {
+            if (value.discontinuity()) {
+                textBuilder.addTag(tag());
+            }
+        }
+    },
+
 
     EXTINF {
         @Override
